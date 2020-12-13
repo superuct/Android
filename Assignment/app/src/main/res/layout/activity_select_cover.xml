@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/discard"
+        android:text="放弃"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"/>
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/album"
+        android:text="在相册中选择"
+        android:layout_below="@id/discard"
+        android:layout_alignParentRight="true"/>
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/take_photo"
+        android:text="拍摄"
+        android:layout_alignParentRight="true"
+        android:layout_below="@id/album"/>
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/save"
+        android:text="选择当前画面"
+        android:layout_alignParentRight="true"
+        android:layout_below="@id/take_photo"/>
+
+    <SurfaceView
+        android:id="@+id/sv"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/user_name"
+        android:text="选择视频封面"
+        android:textSize="20pt"
+        android:layout_above="@id/seekbar"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/curr_time"
+        android:text="00:00"
+        android:layout_toLeftOf="@id/duration"
+        android:layout_above="@id/seekbar"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/duration"
+        android:text="/00:00"
+        android:layout_above="@id/seekbar"
+        android:layout_alignParentRight="true"/>
+    <SeekBar
+        android:id="@+id/seekbar"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:layout_alignParentBottom="true"
+        android:layout_gravity="center_vertical"/>
+
+</RelativeLayout>

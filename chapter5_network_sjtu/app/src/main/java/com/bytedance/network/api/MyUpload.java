@@ -17,6 +17,6 @@ public interface MyUpload {
     @Multipart
     @POST("/invoke/video")
     Call<ResponseBody> post(@Part MultipartBody.Part image,
-                            @Query("student_id") String stuid,
-                            @Query("user_name") String name);
+                            @Query("student_id") String student_id,
+                            @Query("user_name") String user_name);
 }

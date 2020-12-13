@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:slike="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".VideoActivity">
+
+    <SurfaceView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/sv"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/user_name"
+        android:text="User_Name"
+        android:textSize="20pt"
+        android:layout_above="@id/seekbar"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/curr_time"
+        android:text="00:00"
+        android:layout_toLeftOf="@id/duration"
+        android:layout_above="@id/seekbar"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/duration"
+        android:text="/00:00"
+        android:layout_above="@id/seekbar"
+        android:layout_alignParentRight="true"/>
+    <SeekBar
+        android:id="@+id/seekbar"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:layout_alignParentBottom="true"
+        android:layout_gravity="center_vertical"/>
+
+    <com.sum.slike.SuperLikeLayout
+        android:id="@+id/super_like_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        slike:show_text="false"/>
+
+</RelativeLayout>

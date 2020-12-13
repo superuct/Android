@@ -46,8 +46,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private MultipartBody.Part getMultipartFromAsset(){
-        final String partKey = "image";
-        final String localFileName = "pic.png";
+        final String partKey = "video";
+        final String localFileName = "video.mp4";
         RequestBody requestBody = RequestBody.create(MediaType.parse("multipart/form_data"), fileNameToByte(localFileName));
         return MultipartBody.Part.createFormData(partKey, localFileName, requestBody);
     }
