@@ -42,6 +42,7 @@ public class RecordActivity extends AppCompatActivity implements View.OnClickLis
         setContentView(R.layout.activity_record);
 
         recordView = findViewById(R.id.record_view);
+        getSupportActionBar().hide();
 
         flash = findViewById(R.id.flash);
         switch_camera = findViewById(R.id.switch_camera);

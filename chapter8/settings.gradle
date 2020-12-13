@@ -1,2 +1,3 @@
+include ':silicompressor'
 include ':app'
 rootProject.name = "chapter8"

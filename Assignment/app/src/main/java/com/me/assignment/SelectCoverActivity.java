@@ -78,6 +78,8 @@ public class SelectCoverActivity extends AppCompatActivity implements View.OnCli
     private String imgPath;
     private String time;
 
+    private int duration;
+
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -149,6 +151,16 @@ public class SelectCoverActivity extends AppCompatActivity implements View.OnCli
 //            Log.i("TAG", "onActivityResult: "+imgPath);
             finish();
         }
+        if (requestCode == REQUEST_CAPTURE && resultCode != RESULT_OK) {
+            deleteFile(imgPath);
+            MediaScannerConnection.scanFile(SelectCoverActivity.this, new String[]{imgPath}, null, new MediaScannerConnection.OnScanCompletedListener() {
+                public void onScanCompleted(String path, Uri uri) {
+                    Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
+                    mediaScanIntent.setData(uri);
+                    sendBroadcast(mediaScanIntent);
+                }
+            });
+        }
     }
 
     @Override
@@ -211,6 +223,7 @@ public class SelectCoverActivity extends AppCompatActivity implements View.OnCli
     }
 
     public void MyPost(String imgUrl, String vidUrl, String id, String user_name){
+
         myUpload.post(getMultipartFromAsset("cover_image",imgUrl), getMultipartFromAsset("video",vidUrl),id,user_name).enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
@@ -265,7 +278,7 @@ public class SelectCoverActivity extends AppCompatActivity implements View.OnCli
      * @throws
      */
     @SuppressLint("NewApi")
-    public static boolean getSurfaceViewScreenshot(String videoUrl, String imgpath, MediaPlayer mediaPlayer, Context context) throws FileNotFoundException {
+    public boolean getSurfaceViewScreenshot(String videoUrl, String imgpath, MediaPlayer mediaPlayer, Context context) throws FileNotFoundException {
 
         Bitmap bmp = null;
         // android 9及其以上版本可以使用该方法
@@ -285,7 +298,7 @@ public class SelectCoverActivity extends AppCompatActivity implements View.OnCli
 //                } else {
 //                    mediaPlayer.prepare();
 //                }
-            int duration = mediaPlayer.getDuration();
+//            int duration = mediaPlayer.getDuration();
             int position = mediaPlayer.getCurrentPosition();
             // 通过这个计算出想截取的画面所在的时间
             videoPosition = titalTime * position / duration;
@@ -405,7 +418,7 @@ public class SelectCoverActivity extends AppCompatActivity implements View.OnCli
 
                 }
             });
-            mediaPlayer.prepare();
+
             mediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
                 @Override
                 public void onPrepared(MediaPlayer mp) {
@@ -420,10 +433,11 @@ public class SelectCoverActivity extends AppCompatActivity implements View.OnCli
                     System.out.println(percent);
                 }
             });
+            mediaPlayer.prepare();
         }catch (Exception e){
             e.printStackTrace();
         }
-        int duration = mediaPlayer.getDuration();
+        duration = mediaPlayer.getDuration();
 //        Log.i("TAG", "initMediaPlayer: "+ Integer.toString(duration));
         int position = mediaPlayer.getCurrentPosition();
 //        Log.i("TAG", "initMediaPlayer: "+ Integer.toString(position));
@@ -435,7 +449,7 @@ public class SelectCoverActivity extends AppCompatActivity implements View.OnCli
     public void startPlay(){
         mediaPlayer.start();//开始播放
 //        mediaPlayer.setLooping(true);
-        int duration = mediaPlayer.getDuration();//获取音乐总时间
+//        int duration = mediaPlayer.getDuration();//获取音乐总时间
 //                    Log.i("TAG", "onClick: Play");
         seekBar.setMax(duration);//将音乐总时间设置为Seekbar的最大值
 //                    Log.i("TAG", "onClick: Play");
@@ -454,12 +468,31 @@ public class SelectCoverActivity extends AppCompatActivity implements View.OnCli
     }
 
     @Override
-    public void onStop() {
-        super.onStop();
+    public void onPause() {
+        super.onPause();
         if(timer!=null){
             timer.cancel();
         }
         if(mediaPlayer != null){
+            mediaPlayer.pause();
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (mediaPlayer != null & !mediaPlayer.isPlaying()) {
+            startPlay();
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if(timer!=null){
+            timer.cancel();
+        }
+        if (mediaPlayer != null) {
             mediaPlayer.stop();
             mediaPlayer.release();
         }
